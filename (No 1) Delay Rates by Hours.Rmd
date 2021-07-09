@@ -1,0 +1,139 @@
+---
+title: "Flight Delay Analysis for (NYC 2013) : Delay Rates by Hours"
+  output:rmarkdown::github_document
+  html_document:
+    df_print: paged
+editor_options:
+  chunk_output_type: inline
+---
+
+I will examine some questions on the data [flights](https://cran.r-project.org/web/packages/nycflights13/nycflights13.pdf)
+
+First question:
+what is the distribution of sum of counts of *flights* throughout 24 hours ?
+
+
+```{r}
+#for data
+library(nycflights13)
+#for data manipulation
+library(tidyverse)
+#for visualization
+library(ggplot2)
+
+#get complete case 
+df<-flights[complete.cases(flights),]
+#observe data
+print(df)
+
+#create a variable classifying time xy:ab to xy fhour=floored hour
+df<-mutate(df,fhour=floor(dep_time/100))
+#we accept 24:00 as 00:00 for grouping
+df <- df %>% mutate(fhour = replace(fhour, fhour == 24, 0))
+
+#summarize counts of flights over 24 hours
+day24<-df%>%group_by(fhour)%>%summarise(count=n())
+#show the result
+print(day24)
+
+#visualize the results as a bar plot
+ggplot(day24, aes(factor(fhour),y=count))+
+  xlab("hours")+
+  geom_bar(stat="identity")+
+  ggtitle("Figure 1")
+
+#visualize the results as a circular bar chart (far better)
+ggplot(day24, aes(factor(fhour),y=count))+
+  xlab("hours")+
+  geom_bar(stat="identity")+
+  coord_polar(start=0)+
+  ggtitle("Figure 2")
+
+```
+
+other question:
+What is the distribution of sum of counts of *delay* throughout 24 hours ?
+(less than 5 minutes is acceptable)
+
+
+```{r}
+
+#create a variable for delay as a class  
+df<-mutate(df,delay=ifelse(dep_delay>5,"Yes","No"))
+
+#get distribution of delay through 24 hours
+hour_delay<-df%>%group_by(fhour,delay)%>%summarise(count=n())
+
+#spread data on delay and create new data 
+hour_delay2<-hour_delay%>%spread(key="delay",value="count")
+
+#NA to 0 in hour_delay2
+hour_delay2<-hour_delay2%>%mutate(Yes=replace_na(Yes,0))
+hour_delay2<-hour_delay2%>%mutate(No=replace_na(No,0))
+
+#add total flights by hour to end of column
+hour_delay2<-hour_delay2%>%add_column(Total=day24$count)
+
+#add delay rates by hour to end of column
+hour_delay2<-hour_delay2%>%mutate(delay_rates=round(Yes/Total,2))
+
+#visualize the results as a circular bar chart
+ggplot(hour_delay2, aes(factor(fhour),y=delay_rates))+
+  xlab("hours")+
+  geom_bar(stat="identity")+
+  coord_polar(start=0)+
+  ggtitle("Figure 3")
+
+
+#visualize the results as a circular bar chart
+ggplot(hour_delay2, aes(factor(fhour),y=Total,fill=delay_rates))+
+  xlab("hours")+
+  geom_bar(stat="identity")+
+  coord_polar(start=0)+
+  ggtitle("Figure 4")
+
+
+#visualize the results as a bar chart
+ggplot(data=hour_delay2, aes(x=factor(fhour),y=Total))+
+  geom_bar(stat="identity",fill="grey")+
+  geom_bar(data=hour_delay2,aes(x=factor(fhour),y=Yes),
+    stat="identity",fill="black")+
+    xlab("hours")+
+  ggtitle("Figure 5")
+
+
+#visualize the results as a circular bar chart
+ggplot(data=hour_delay2, aes(x=factor(fhour),y=Total))+
+  geom_bar(stat="identity",fill="grey")+
+  geom_bar(data=hour_delay2,aes(x=factor(fhour),y=Yes),
+    stat="identity",fill="black")+
+    xlab("hours")+
+  coord_polar(start=0)+
+  ggtitle("Figure 6")
+
+#visualize the results as a bar chart
+
+#for melt function
+library(reshape2)
+
+#visualize the results as a bar chart with legend
+hour_delay3<-melt(hour_delay2[,-5],id=c("fhour","Total"))
+colnames(hour_delay3)[3]="Delay"
+
+ggplot(data = hour_delay3, aes(x =factor(fhour), y = value, fill = Delay)) + 
+  geom_bar(stat = "identity")+
+  ggtitle("Figure 7")
+
+
+#visualize the results as a circular bar chart with legend
+ggplot(data = hour_delay3, aes(x =factor(fhour), y = value, fill = Delay)) + 
+  geom_bar(stat = "identity")+
+  coord_polar(start=0)+
+  ggtitle("Figure 8")
+
+```
+
+
+
+
+
