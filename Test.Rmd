@@ -1,8 +1,8 @@
 ---
 title: "test"
-output:
+output: 
   html_document:
-    df_print: paged
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
