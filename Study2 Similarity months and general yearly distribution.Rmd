@@ -1,0 +1,62 @@
+---
+title: 'Flight Delay Analysis for (NYC 2013) : Similarity months and general yearly distribution'
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+  pdf_document: default
+editor_options:
+  chunk_output_type: inline
+---
+
+For data:  [flights](https://cran.r-project.org/web/packages/nycflights13/nycflights13.pdf)
+
+Study:
+  Let's examine similarity of delay rate of *flights* in year 2013 with those in months 
+  
+```{r}
+#for data
+library(nycflights13)
+#for data manipulation
+library(tidyverse)
+#for visualization
+library(ggplot2)
+
+#get complete case 
+df<-flights[complete.cases(flights),]
+#observe data
+print(df)
+
+#create a variable classifying time xy:ab to xy fhour=floored hour
+df<-mutate(df,fhour=floor(dep_time/100))
+#we accept 24:00 as 00:00 for grouping
+df <- df %>% mutate(fhour = replace(fhour, fhour == 24, 0))
+
+#summarize counts of flights over 24 hours
+day24<-df%>%group_by(fhour)%>%summarise(count=n())
+
+#create a variable for delay as a class  
+df<-mutate(df,delay=ifelse(dep_delay>5,"Yes","No"))
+
+#get distribution of delay through 24 hours
+hour_delay<-df%>%group_by(fhour,delay)%>%summarise(count=n())
+
+#spread data on delay and create new data 
+hour_delay2<-hour_delay%>%spread(key="delay",value="count")
+
+#NA to 0 in hour_delay2
+hour_delay2<-hour_delay2%>%mutate(Yes=replace_na(Yes,0))
+hour_delay2<-hour_delay2%>%mutate(No=replace_na(No,0))
+
+#add total flights by hour to end of column
+hour_delay2<-hour_delay2%>%add_column(Total=day24$count)
+
+#add delay rates by hour to end of column
+hour_delay2<-hour_delay2%>%mutate(delay_rates=round(Yes/Total,2))
+
+yearly_delay_rate_24hours<-hour_delay2$delay_rates
+
+
+
+```
+  
