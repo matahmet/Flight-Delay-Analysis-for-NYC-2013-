@@ -1,18 +1,18 @@
 ---
-title: 'Flight Delay Analysis for (NYC 2013) : Similarity months and general yearly distribution'
+title: 'Flight Delay Analysis for (NYC 2013) : Comparison of distribution of  through-24-hours-delay count of monthly and yearly'
 output:
   html_document:
     df_print: paged
   word_document: default
   pdf_document: default
 editor_options:
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 For data:  [flights](https://cran.r-project.org/web/packages/nycflights13/nycflights13.pdf)
 
 Study:
-  Let's examine similarity of delay rate of *flights* in year 2013 with those in months 
+  Let's examine similarity of through-24-hours-delay count of *flights* in year 2013 with those in months 
   
 ```{r}
 
@@ -26,8 +26,8 @@ library(ggplot2)
 
 #get complete case 
 df<-flights[complete.cases(flights),]
-#observe data
-print(df)
+#observe data optional
+#print(df)
 
 #create a variable classifying time xy:ab to xy fhour=floored hour
 df<-mutate(df,fhour=floor(dep_time/100))
@@ -57,15 +57,15 @@ hour_delay2<-hour_delay2%>%add_column(Total=day24$count)
 hour_delay2<-hour_delay2%>%mutate(delay_rates=round(Yes/Total,2))
 
 #change names for right join to temporary month tables 2nd chunk (yearly_dr= yearly delay rate)
-yearly<-hour_delay2[,c(1,3,5)]
+yearly<-hour_delay2[,c(1,3)]
 colnames(yearly)[2]="yearly_count"
-colnames(yearly)[3]="yearly_dr"
+
 
 
 
 ```
 
-Blah blah
+Now let us deal with monthly 24-hours-delay count , statistically compare its to yearly through-24-hours-delay count 
 
 ```{r}
 
@@ -74,16 +74,21 @@ Blah blah
 
 options(warn=-1)
 
-#Chi square test to be used in order to examine similarity between yearly rate and count with monthly properties
+# Suppress summarise info
+options(dplyr.summarise.inform = FALSE)
 
-#based on monthly and yearly delay rate
-cs_p.values_on_rate<-rep(0,12)
+#Chi square test to be used in order to examine similarity between yearly  count with monthly properties
+
 
 #based on monthly and yearly delay count
 cs_p.values_on_count<-rep(0,12)
 
 #based on monthly and yearly delay count with simulated data for avoiding poor results
 cs_p.values_on_count_sim<-rep(0,12)
+
+
+#fisher's exact test based on count (For such small counts)
+fe_p.values_on_count<-rep(0,12)
 
 #i is i-th months 
 for(i in 1:12){
@@ -98,38 +103,58 @@ for(i in 1:12){
   
   monthly_temp1<-monthly_temp0%>%filter(Yes>10)
   
-  #compute delay rate 
-  monthly_temp2<-monthly_temp1%>%add_column(monthly_dr=round(monthly_temp1$Yes/(monthly_temp1$Yes+monthly_temp1$No),2))
+  
   
   #join i month properties with yearly properties (delay count and rate)
-  monthly_temp3<-left_join(monthly_temp2,yearly,"fhour")
+  monthly_temp2<-left_join(monthly_temp1,yearly,"fhour")
   
   #change name for monthly_count
-  colnames(monthly_temp3)[3]="monthly_count"
+  colnames(monthly_temp2)[3]="monthly_count"
   
   
-  #get result based yearly and monthly delay rate by hours
-  temp_result_dr<-chisq.test(monthly_temp3$monthly_dr, monthly_temp3$yearly_dr, correct=FALSE)
+
+  #get result based yearly and monthly delay count by hours
+  temp_result_count<-chisq.test(monthly_temp2$monthly_count, monthly_temp2$yearly_count, correct=FALSE)
   
   #get result based yearly and monthly delay count by hours
-  temp_result_count<-chisq.test(monthly_temp3$monthly_count, monthly_temp3$yearly_count, correct=FALSE)
+  temp_result_count_sim<-chisq.test(monthly_temp2$monthly_count, monthly_temp2$yearly_count, correct=FALSE,simulate.p.value = TRUE)
   
-  #get result based yearly and monthly delay count by hours
-  temp_result_count_sim<-chisq.test(monthly_temp3$monthly_count, monthly_temp3$yearly_count, correct=FALSE,simulate.p.value = TRUE)
+  #get result for fisher's exact test
+  temp_result_count_fe<-fisher.test(monthly_temp2$monthly_count, monthly_temp2$yearly_count)
   
-  #get p.values of chi square test based yearly and monthly delay rate by hours in order
-  cs_p.values_on_rate[i]<-temp_result_dr$p.value
-  
-  #get p.values of chi square test based yearly and monthly delay rate by hours in order
+  #get p.values of chi square test based yearly and monthly delay count by hours in order
   cs_p.values_on_count[i]<-temp_result_count$p.value
   
-  #get p.values of chi square test based yearly and monthly delay rate by hours with simulated data in order
+  #get p.values of chi square test based yearly and monthly delay count by hours with simulated data in order
   cs_p.values_on_count_sim[i]<-temp_result_count_sim$p.value
   
+  #get p.values from fischer's exact test 
+  fe_p.values_on_count[i]<-temp_result_count_fe$p.value
 }
 
 
 
+
+```
+
+```{r}
+chi1<-data.frame("no"=seq(1:12),"months"=month.abb[seq(1:12)],"p.values"=cs_p.values_on_count)
+
+#for saving month order
+chi1$months<-factor(chi1$months,levels=month.abb[seq(1:12)])
+
+
+ggplot(data=chi1, aes(x=months, y=p.values)) +
+  geom_bar(stat="identity")+
+  geom_hline(yintercept=0.05)
+```
+
+```{r}
+print("for such small counts, monthly simulated chi square test p values:   ")
+print(cs_p.values_on_count_sim)
+
+print("for such small counts, monthly fisher's exact test p values:   ")
+print(cs_p.values_on_count_sim)
 
 ```
 
