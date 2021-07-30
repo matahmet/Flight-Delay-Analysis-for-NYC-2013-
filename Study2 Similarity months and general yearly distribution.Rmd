@@ -157,6 +157,59 @@ print("for such small counts, monthly fisher's exact test p values:   ")
 print(cs_p.values_on_count_sim)
 
 ```
+Let us check similarity successive months (both forward and backward)   
+
+
+
+```{r}
+
+#fward (forward month), indicator of chi square test between i-th and (i+1)-th month
+#bward (backward month), indicator of chi square test between i-th and (i-1)-th month
+result<-data.frame(fward=seq(1,11), bward=seq(2,12),chi_p_values=rep(0,11))
+
+i=1
+  
+  #extract monthly delay count
+  monthly_temp0_1=df%>%filter(month==i)%>%
+    group_by(fhour,delay)%>%summarise(count=n())%>%
+    spread(key="delay",value="count")%>%
+    mutate(Yes=replace_na(Yes,0))%>%
+    mutate(No=replace_na(No,0))
+  
+  #omit hours with which delay counts under 11 for avoiding small expected values causing false p.value for chis square tests
+  
+  monthly_temp1_1<-monthly_temp0_1%>%filter(Yes>10)
+  
+  #rename based on i
+  monthly_temp1_1<-rename(monthly_temp1_1,No_i=No,Yes_i=Yes)
+  
+  
+  
+  
+i=2
+  
+  #extract monthly delay count
+  monthly_temp0_2=df%>%filter(month==i)%>%
+    group_by(fhour,delay)%>%summarise(count=n())%>%
+    spread(key="delay",value="count")%>%
+    mutate(Yes=replace_na(Yes,0))%>%
+    mutate(No=replace_na(No,0))
+  
+  #omit hours with which delay counts under 11 for avoiding small expected values causing false p.value for chis square tests
+  
+  monthly_temp2_1<-monthly_temp0_2%>%filter(Yes>10)
+  
+#rename based on i+1 (next of i-th month)
+   monthly_temp2_1<-rename(monthly_temp2_1,No_next=No,Yes_next=Yes)
+  
+#join i month properties with yearly properties (delay count and rate)
+  monthly_temp_12<-inner_join(monthly_temp1_1,monthly_temp2_1,"fhour")
+  
+
+  chisq.test(monthly_temp_12$Yes_i, monthly_temp_12$Yes_next, correct=FALSE)
+
+
+```
 
 
   

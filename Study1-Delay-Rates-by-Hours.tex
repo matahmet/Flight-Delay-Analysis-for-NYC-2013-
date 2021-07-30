@@ -1,0 +1,362 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Flight Delay Analysis for (NYC 2013) : Delay Rates by Hours},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Flight Delay Analysis for (NYC 2013) : Delay Rates by Hours}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+I will examine some questions on the data
+\href{https://cran.r-project.org/web/packages/nycflights13/nycflights13.pdf}{flights}
+
+First question: what is the distribution of sum of counts of
+\emph{flights} throughout 24 hours ?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#for data}
+\FunctionTok{library}\NormalTok{(nycflights13)}
+\CommentTok{\#for data manipulation}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## v ggplot2 3.3.4     v purrr   0.3.4
+## v tibble  3.1.2     v dplyr   1.0.7
+## v tidyr   1.1.3     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.1
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#for visualization}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\CommentTok{\#get complete case }
+\NormalTok{df}\OtherTok{\textless{}{-}}\NormalTok{flights[}\FunctionTok{complete.cases}\NormalTok{(flights),]}
+\CommentTok{\#observe data}
+\FunctionTok{print}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 327,346 x 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    <int> <int> <int>    <int>          <int>     <dbl>    <int>          <int>
+##  1  2013     1     1      517            515         2      830            819
+##  2  2013     1     1      533            529         4      850            830
+##  3  2013     1     1      542            540         2      923            850
+##  4  2013     1     1      544            545        -1     1004           1022
+##  5  2013     1     1      554            600        -6      812            837
+##  6  2013     1     1      554            558        -4      740            728
+##  7  2013     1     1      555            600        -5      913            854
+##  8  2013     1     1      557            600        -3      709            723
+##  9  2013     1     1      557            600        -3      838            846
+## 10  2013     1     1      558            600        -2      753            745
+## # ... with 327,336 more rows, and 11 more variables: arr_delay <dbl>,
+## #   carrier <chr>, flight <int>, tailnum <chr>, origin <chr>, dest <chr>,
+## #   air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>, time_hour <dttm>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#create a variable classifying time xy:ab to xy fhour=floored hour}
+\NormalTok{df}\OtherTok{\textless{}{-}}\FunctionTok{mutate}\NormalTok{(df,}\AttributeTok{fhour=}\FunctionTok{floor}\NormalTok{(dep\_time}\SpecialCharTok{/}\DecValTok{100}\NormalTok{))}
+\CommentTok{\#we accept 24:00 as 00:00 for grouping}
+\NormalTok{df }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{fhour =} \FunctionTok{replace}\NormalTok{(fhour, fhour }\SpecialCharTok{==} \DecValTok{24}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+
+\CommentTok{\#summarize counts of flights over 24 hours}
+\NormalTok{day24}\OtherTok{\textless{}{-}}\NormalTok{df}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{group\_by}\NormalTok{(fhour)}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{summarise}\NormalTok{(}\AttributeTok{count=}\FunctionTok{n}\NormalTok{())}
+\CommentTok{\#show the result}
+\FunctionTok{print}\NormalTok{(day24)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 24 x 2
+##    fhour count
+##    <dbl> <int>
+##  1     0   905
+##  2     1   221
+##  3     2    63
+##  4     3    11
+##  5     4   305
+##  6     5  7230
+##  7     6 22627
+##  8     7 21409
+##  9     8 26367
+## 10     9 18820
+## # ... with 14 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#visualize the results as a bar plot}
+\FunctionTok{ggplot}\NormalTok{(day24, }\FunctionTok{aes}\NormalTok{(}\FunctionTok{factor}\NormalTok{(fhour),}\AttributeTok{y=}\NormalTok{count))}\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"hours"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"identity"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Figure 1"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Study1-Delay-Rates-by-Hours_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#visualize the results as a circular bar chart (far better)}
+\FunctionTok{ggplot}\NormalTok{(day24, }\FunctionTok{aes}\NormalTok{(}\FunctionTok{factor}\NormalTok{(fhour),}\AttributeTok{y=}\NormalTok{count))}\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"hours"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"identity"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{coord\_polar}\NormalTok{(}\AttributeTok{start=}\DecValTok{0}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Figure 2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Study1-Delay-Rates-by-Hours_files/figure-latex/unnamed-chunk-1-2.pdf}
+
+other question: What is the distribution of sum of counts of
+\emph{delay} throughout 24 hours ? (less than 5 minutes is acceptable)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#create a variable for delay as a class  }
+\NormalTok{df}\OtherTok{\textless{}{-}}\FunctionTok{mutate}\NormalTok{(df,}\AttributeTok{delay=}\FunctionTok{ifelse}\NormalTok{(dep\_delay}\SpecialCharTok{\textgreater{}}\DecValTok{5}\NormalTok{,}\StringTok{"Yes"}\NormalTok{,}\StringTok{"No"}\NormalTok{))}
+
+\CommentTok{\#get distribution of delay through 24 hours}
+\NormalTok{hour\_delay}\OtherTok{\textless{}{-}}\NormalTok{df}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{group\_by}\NormalTok{(fhour,delay)}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{summarise}\NormalTok{(}\AttributeTok{count=}\FunctionTok{n}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'fhour'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#spread data on delay and create new data }
+\NormalTok{hour\_delay2}\OtherTok{\textless{}{-}}\NormalTok{hour\_delay}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{spread}\NormalTok{(}\AttributeTok{key=}\StringTok{"delay"}\NormalTok{,}\AttributeTok{value=}\StringTok{"count"}\NormalTok{)}
+
+\CommentTok{\#NA to 0 in hour\_delay2}
+\NormalTok{hour\_delay2}\OtherTok{\textless{}{-}}\NormalTok{hour\_delay2}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{Yes=}\FunctionTok{replace\_na}\NormalTok{(Yes,}\DecValTok{0}\NormalTok{))}
+\NormalTok{hour\_delay2}\OtherTok{\textless{}{-}}\NormalTok{hour\_delay2}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{No=}\FunctionTok{replace\_na}\NormalTok{(No,}\DecValTok{0}\NormalTok{))}
+
+\CommentTok{\#add total flights by hour to end of column}
+\NormalTok{hour\_delay2}\OtherTok{\textless{}{-}}\NormalTok{hour\_delay2}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{add\_column}\NormalTok{(}\AttributeTok{Total=}\NormalTok{day24}\SpecialCharTok{$}\NormalTok{count)}
+
+\CommentTok{\#add delay rates by hour to end of column}
+\NormalTok{hour\_delay2}\OtherTok{\textless{}{-}}\NormalTok{hour\_delay2}\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{delay\_rates=}\FunctionTok{round}\NormalTok{(Yes}\SpecialCharTok{/}\NormalTok{Total,}\DecValTok{2}\NormalTok{))}
+
+\CommentTok{\#visualize the results as a circular bar chart}
+\FunctionTok{ggplot}\NormalTok{(hour\_delay2, }\FunctionTok{aes}\NormalTok{(}\FunctionTok{factor}\NormalTok{(fhour),}\AttributeTok{y=}\NormalTok{delay\_rates))}\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"hours"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"identity"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{coord\_polar}\NormalTok{(}\AttributeTok{start=}\DecValTok{0}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Figure 3"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Study1-Delay-Rates-by-Hours_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#visualize the results as a circular bar chart}
+\FunctionTok{ggplot}\NormalTok{(hour\_delay2, }\FunctionTok{aes}\NormalTok{(}\FunctionTok{factor}\NormalTok{(fhour),}\AttributeTok{y=}\NormalTok{Total,}\AttributeTok{fill=}\NormalTok{delay\_rates))}\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"hours"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"identity"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{coord\_polar}\NormalTok{(}\AttributeTok{start=}\DecValTok{0}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Figure 4"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Study1-Delay-Rates-by-Hours_files/figure-latex/unnamed-chunk-2-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#visualize the results as a bar chart}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{hour\_delay2, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\FunctionTok{factor}\NormalTok{(fhour),}\AttributeTok{y=}\NormalTok{Total))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"identity"}\NormalTok{,}\AttributeTok{fill=}\StringTok{"grey"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{data=}\NormalTok{hour\_delay2,}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\FunctionTok{factor}\NormalTok{(fhour),}\AttributeTok{y=}\NormalTok{Yes),}
+    \AttributeTok{stat=}\StringTok{"identity"}\NormalTok{,}\AttributeTok{fill=}\StringTok{"black"}\NormalTok{)}\SpecialCharTok{+}
+    \FunctionTok{xlab}\NormalTok{(}\StringTok{"hours"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Figure 5"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Study1-Delay-Rates-by-Hours_files/figure-latex/unnamed-chunk-2-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#visualize the results as a circular bar chart}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{hour\_delay2, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\FunctionTok{factor}\NormalTok{(fhour),}\AttributeTok{y=}\NormalTok{Total))}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"identity"}\NormalTok{,}\AttributeTok{fill=}\StringTok{"grey"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{data=}\NormalTok{hour\_delay2,}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\FunctionTok{factor}\NormalTok{(fhour),}\AttributeTok{y=}\NormalTok{Yes),}
+    \AttributeTok{stat=}\StringTok{"identity"}\NormalTok{,}\AttributeTok{fill=}\StringTok{"black"}\NormalTok{)}\SpecialCharTok{+}
+    \FunctionTok{xlab}\NormalTok{(}\StringTok{"hours"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{coord\_polar}\NormalTok{(}\AttributeTok{start=}\DecValTok{0}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Figure 6"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Study1-Delay-Rates-by-Hours_files/figure-latex/unnamed-chunk-2-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#visualize the results as a bar chart}
+
+\CommentTok{\#for melt function}
+\FunctionTok{library}\NormalTok{(reshape2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'reshape2'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:tidyr':
+## 
+##     smiths
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#visualize the results as a bar chart with legend}
+\NormalTok{hour\_delay3}\OtherTok{\textless{}{-}}\FunctionTok{melt}\NormalTok{(hour\_delay2[,}\SpecialCharTok{{-}}\DecValTok{5}\NormalTok{],}\AttributeTok{id=}\FunctionTok{c}\NormalTok{(}\StringTok{"fhour"}\NormalTok{,}\StringTok{"Total"}\NormalTok{))}
+\FunctionTok{colnames}\NormalTok{(hour\_delay3)[}\DecValTok{3}\NormalTok{]}\OtherTok{=}\StringTok{"Delay"}
+
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ hour\_delay3, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\FunctionTok{factor}\NormalTok{(fhour), }\AttributeTok{y =}\NormalTok{ value, }\AttributeTok{fill =}\NormalTok{ Delay)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Figure 7"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Study1-Delay-Rates-by-Hours_files/figure-latex/unnamed-chunk-2-5.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#visualize the results as a circular bar chart with legend}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ hour\_delay3, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\FunctionTok{factor}\NormalTok{(fhour), }\AttributeTok{y =}\NormalTok{ value, }\AttributeTok{fill =}\NormalTok{ Delay)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{coord\_polar}\NormalTok{(}\AttributeTok{start=}\DecValTok{0}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Figure 8"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Study1-Delay-Rates-by-Hours_files/figure-latex/unnamed-chunk-2-6.pdf}
+
+\end{document}

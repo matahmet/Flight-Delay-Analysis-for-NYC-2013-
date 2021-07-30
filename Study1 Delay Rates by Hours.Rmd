@@ -1,10 +1,10 @@
 ---
 title: 'Flight Delay Analysis for (NYC 2013) : Delay Rates by Hours'
 output:
-  pdf_document: default
-  word_document: default
   html_document:
     df_print: paged
+  word_document: default
+  pdf_document: default
 editor_options:
   chunk_output_type: inline
 ---
@@ -36,30 +36,42 @@ df <- df %>% mutate(fhour = replace(fhour, fhour == 24, 0))
 #summarize counts of flights over 24 hours
 day24<-df%>%group_by(fhour)%>%summarise(count=n())
 #show the result
-print(day24)
+day24
 
+
+
+```
+
+To illustrate, yearly count of flights in 00:00-00:59 (am) and 16:00-16:59 (04:00-04:59 pm) are 905 and 22236, respectively. 
+
+
+```{r}
 #visualize the results as a bar plot
 ggplot(day24, aes(factor(fhour),y=count))+
   xlab("hours")+
+  ylab("count of flights")+
   geom_bar(stat="identity")+
   ggtitle("Figure 1")
 
 #visualize the results as a circular bar chart (far better)
 ggplot(day24, aes(factor(fhour),y=count))+
   xlab("hours")+
+  ylab("count of flights")+
   geom_bar(stat="identity")+
   coord_polar(start=0)+
   ggtitle("Figure 2")
 
 ```
 
+
+
 other question:
 What is the distribution of sum of counts of *delay* throughout 24 hours ?
 (less than 5 minutes is acceptable)
 
 
-```{r}
 
+```{r}
 #create a variable for delay as a class  
 df<-mutate(df,delay=ifelse(dep_delay>5,"Yes","No"))
 
@@ -78,6 +90,16 @@ hour_delay2<-hour_delay2%>%add_column(Total=day24$count)
 
 #add delay rates by hour to end of column
 hour_delay2<-hour_delay2%>%mutate(delay_rates=round(Yes/Total,2))
+
+hour_delay2
+```
+
+
+Note: We deal with "delay" as a categorical value (Yes=delay occurred, No=otherwise), regardless of its duration.
+
+```{r}
+
+
 
 #visualize the results as a circular bar chart
 ggplot(hour_delay2, aes(factor(fhour),y=delay_rates))+
