@@ -1,0 +1,6 @@
+This is a long character string.
+It has multiple lines. Remember to escape
+double quotes "", but 'single quotes' are OK.
+I hope you not to lose your sanity when thinking
+about how many backslashes you need, e.g., is it
+'	' or '\t' or '\\t'?

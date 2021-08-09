@@ -97,10 +97,8 @@ hour_delay2
 
 Note: We deal with "delay" as a categorical value (Yes=delay occurred, No=otherwise), regardless of its duration.
 
+
 ```{r}
-
-
-
 #visualize the results as a circular bar chart
 ggplot(hour_delay2, aes(factor(fhour),y=delay_rates))+
   xlab("hours")+
@@ -108,13 +106,27 @@ ggplot(hour_delay2, aes(factor(fhour),y=delay_rates))+
   coord_polar(start=0)+
   ggtitle("Figure 3")
 
+```
 
+Delay rates can be visualized in spectral approach but it is not helping for understanding for distribution  of delay rates on 24 hours.
+
+
+```{r}
 #visualize the results as a circular bar chart
 ggplot(hour_delay2, aes(factor(fhour),y=Total,fill=delay_rates))+
   xlab("hours")+
   geom_bar(stat="identity")+
   coord_polar(start=0)+
   ggtitle("Figure 4")
+```
+
+But bar plot unsuprisingly works...
+
+
+```{r}
+
+
+
 
 
 #visualize the results as a bar chart
@@ -146,6 +158,7 @@ colnames(hour_delay3)[3]="Delay"
 
 ggplot(data = hour_delay3, aes(x =factor(fhour), y = value, fill = Delay)) + 
   geom_bar(stat = "identity")+
+  xlab("hours")+
   ggtitle("Figure 7")
 
 
@@ -153,6 +166,7 @@ ggplot(data = hour_delay3, aes(x =factor(fhour), y = value, fill = Delay)) +
 ggplot(data = hour_delay3, aes(x =factor(fhour), y = value, fill = Delay)) + 
   geom_bar(stat = "identity")+
   coord_polar(start=0)+
+  xlab("hours")+
   ggtitle("Figure 8")
 
 ```
